@@ -4,7 +4,11 @@ import 'package:provider/provider.dart';
 import '../../core/api/api_exception.dart';
 import '../settings/settings_model.dart';
 import '../settings/settings_screen.dart';
-import '../../core/widgets/status_views.dart';
+import '../../core/widgets/generic_error_view.dart';
+import '../../core/widgets/loading_view.dart';
+import '../../core/widgets/not_found_view.dart';
+import '../../core/widgets/offline_view.dart';
+import '../../core/widgets/server_error_view.dart';
 import '../profile/profile_screen.dart';
 import 'new_user_screen.dart';
 import 'user.dart';
@@ -70,10 +74,13 @@ class _Body extends StatelessWidget {
           ),
         ],
       ),
-      NoConnectionException() => Offline(onRetry: m.load),
+      NoConnectionException() => OfflineView(onRetry: m.load),
       NotFoundException() || UnauthorizedException() => const NotFoundView(),
-      ServerException(:final status) => ServerError(status, onRetry: m.load),
-      BadResponseException() => const GenericError(),
+      ServerException(:final status) => ServerErrorView(
+        status,
+        onRetry: m.load,
+      ),
+      BadResponseException() => const GenericErrorView(),
     };
   }
 }
