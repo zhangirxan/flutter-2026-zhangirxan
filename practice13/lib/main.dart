@@ -23,8 +23,11 @@ Future<void> main() async {
   const store = SecureStore();
   final token = await store.readToken();
 
-  // the only place that wires everything together
+  // composition root: the only place that picks the real classes
   final api = ApiClient(store);
+  final UserRepository repo = HttpUserRepository(api, const UsersCache());
+  // demo mode, no network (import features/users/fake_user_repository.dart):
+  // final UserRepository repo = FakeUserRepository();
 
   runApp(
     MultiProvider(
@@ -34,10 +37,7 @@ Future<void> main() async {
               SettingsModel(prefs, dark: dark, city: city, avatarPath: avatar),
         ),
         ChangeNotifierProvider(create: (_) => AuthModel(store, token: token)),
-        ChangeNotifierProvider(
-          create: (_) =>
-              UsersModel(HttpUserRepository(api, const UsersCache()))..load(),
-        ),
+        ChangeNotifierProvider(create: (_) => UsersModel(repo)..load()),
       ],
       child: const App(),
     ),
