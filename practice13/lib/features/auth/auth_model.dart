@@ -1,10 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../core/storage/secure_store.dart';
-
-class WrongPasswordException implements Exception {
-  const WrongPasswordException();
-}
+import 'wrong_password_exception.dart';
 
 class AuthModel extends ChangeNotifier {
   // main() reads the token before runApp and passes it here
