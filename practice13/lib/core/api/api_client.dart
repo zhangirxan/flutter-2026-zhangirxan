@@ -10,11 +10,12 @@ import '../storage/secure_store.dart';
 import 'api_exception.dart';
 
 class ApiClient {
+  // tests pass a MockClient, the app gets a real one
   ApiClient(
-    this._client,
     this._store, {
+    http.Client? client,
     this.host = 'jsonplaceholder.typicode.com',
-  });
+  }) : _client = client ?? http.Client();
 
   final http.Client _client;
   final SecureStore _store;

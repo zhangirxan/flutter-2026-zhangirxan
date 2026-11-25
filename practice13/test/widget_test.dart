@@ -64,7 +64,7 @@ UserRepository _repo(
   SecureStore? store,
   UsersCache? cache,
 }) => UserRepository(
-  ApiClient(MockClient(handler), store ?? _MemStore()),
+  ApiClient(store ?? _MemStore(), client: MockClient(handler)),
   cache ?? _MemCache(),
 );
 

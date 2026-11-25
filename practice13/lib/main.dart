@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,8 +24,8 @@ Future<void> main() async {
   const store = SecureStore();
   final token = await store.readToken();
 
-  // the only place that creates http.Client and wires everything together
-  final api = ApiClient(http.Client(), store);
+  // the only place that wires everything together
+  final api = ApiClient(store);
 
   if (const bool.fromEnvironment('CHECKS')) {
     await runChecks(UserRepository(api));
