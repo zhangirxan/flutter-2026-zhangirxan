@@ -63,7 +63,7 @@ UserRepository _repo(
   MockClientHandler handler, {
   SecureStore? store,
   UsersCache? cache,
-}) => UserRepository(
+}) => HttpUserRepository(
   ApiClient(store ?? _MemStore(), client: MockClient(handler)),
   cache ?? _MemCache(),
 );

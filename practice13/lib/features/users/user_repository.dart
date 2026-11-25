@@ -5,8 +5,15 @@ import 'users_cache.dart';
 
 typedef UsersResult = ({List<User> items, bool fromCache});
 
-class UserRepository {
-  UserRepository(this._api, [this._cache = const UsersCache()]);
+// what the model needs, without saying where the data comes from
+abstract interface class UserRepository {
+  Future<UsersResult> getAll();
+  Future<User> getById(int id);
+  Future<User> create(User draft);
+}
+
+class HttpUserRepository implements UserRepository {
+  HttpUserRepository(this._api, this._cache);
 
   final ApiClient _api;
   final UsersCache _cache;
@@ -15,6 +22,7 @@ class UserRepository {
       Uri.https(_api.host, path, query);
 
   // online: save and return fresh. offline: whatever we saved last time
+  @override
   Future<UsersResult> getAll() async {
     try {
       final fresh = await _fetch();
@@ -35,6 +43,7 @@ class UserRepository {
     });
   }
 
+  @override
   Future<User> getById(int id) async {
     final json = await _api.get(_uri('/users/$id'));
     return _parse(
@@ -44,6 +53,7 @@ class UserRepository {
   }
 
   // the server sends back what we posted plus its own id
+  @override
   Future<User> create(User draft) async {
     final json = await _api.post(_uri('/users'), draft.toJson());
     return _parse(

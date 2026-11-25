@@ -8,6 +8,7 @@ import 'features/settings/settings_model.dart';
 import 'core/storage/secure_store.dart';
 import 'features/auth/auth_model.dart';
 import 'features/users/user_repository.dart';
+import 'features/users/users_cache.dart';
 import 'features/users/users_model.dart';
 
 Future<void> main() async {
@@ -34,7 +35,8 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(create: (_) => AuthModel(store, token: token)),
         ChangeNotifierProvider(
-          create: (_) => UsersModel(UserRepository(api))..load(),
+          create: (_) =>
+              UsersModel(HttpUserRepository(api, const UsersCache()))..load(),
         ),
       ],
       child: const App(),
