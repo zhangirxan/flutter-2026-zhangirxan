@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'checks.dart';
 import 'core/api/api_client.dart';
 import 'core/settings/settings_model.dart';
 import 'core/storage/secure_store.dart';
@@ -26,10 +25,6 @@ Future<void> main() async {
 
   // the only place that wires everything together
   final api = ApiClient(store);
-
-  if (const bool.fromEnvironment('CHECKS')) {
-    await runChecks(UserRepository(api));
-  }
 
   runApp(
     MultiProvider(
