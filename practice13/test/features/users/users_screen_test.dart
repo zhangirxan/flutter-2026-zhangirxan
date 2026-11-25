@@ -37,6 +37,7 @@ void main() {
     await tester.pumpWidget(_screen(model));
 
     expect(find.text('No connection'), findsOneWidget);
+    expect(find.text('Retry'), findsOneWidget);
 
     await tester.tap(find.text('Retry'));
     await tester.pump();
