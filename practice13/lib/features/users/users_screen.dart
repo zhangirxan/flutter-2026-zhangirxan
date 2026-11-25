@@ -12,6 +12,7 @@ import '../../core/widgets/server_error_view.dart';
 import '../profile/profile_screen.dart';
 import 'new_user_screen.dart';
 import 'users_model.dart';
+import 'widgets/offline_banner.dart';
 import 'widgets/user_list.dart';
 
 class UsersScreen extends StatelessWidget {
@@ -61,7 +62,7 @@ class _Body extends StatelessWidget {
     return switch (m.error) {
       null => Column(
         children: [
-          if (m.fromCache) _StaleBanner(onRetry: m.load),
+          if (m.fromCache) OfflineBanner(onRetry: m.load),
           Expanded(
             child: RefreshIndicator(
               onRefresh: m.load,
@@ -81,35 +82,5 @@ class _Body extends StatelessWidget {
       ),
       BadResponseException() => const GenericErrorView(),
     };
-  }
-}
-
-class _StaleBanner extends StatelessWidget {
-  const _StaleBanner({required this.onRetry});
-
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return Material(
-      color: colors.tertiaryContainer,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 8),
-        child: Row(
-          children: [
-            Icon(Icons.cloud_off, size: 18, color: colors.onTertiaryContainer),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                'Saved data · no connection',
-                style: TextStyle(color: colors.onTertiaryContainer),
-              ),
-            ),
-            TextButton(onPressed: onRetry, child: const Text('Retry')),
-          ],
-        ),
-      ),
-    );
   }
 }
