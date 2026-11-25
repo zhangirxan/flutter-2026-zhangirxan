@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:practice13/core/api/api_client.dart';
 import 'package:practice13/core/api/api_exception.dart';
-import 'package:practice13/core/settings/settings_model.dart';
+import 'package:practice13/features/settings/settings_model.dart';
 import 'package:practice13/core/storage/secure_store.dart';
 import 'package:practice13/features/users/user.dart';
 import 'package:practice13/features/users/user_repository.dart';
