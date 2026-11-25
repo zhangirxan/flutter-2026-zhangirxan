@@ -23,6 +23,13 @@ void main() {
       expect(() => User.fromJson(json), throwsA(isA<TypeError>()));
     });
 
+    // the planted bug from NOTES.md: lat came as a number, not a string
+    test('Geo.fromJson with lat as a number throws', () {
+      final json = {'lat': -37.3159, 'lng': '81.1496'};
+
+      expect(() => Geo.fromJson(json), throwsA(isA<TypeError>()));
+    });
+
     test('toJson gives back an equal user', () {
       final user = User.fromJson(_user1());
 

@@ -44,6 +44,17 @@ void main() {
     });
   });
 
+  group('broken contract', () {
+    // same bug as in user_test, but here it must come out as my exception,
+    // so the screen shows the generic error instead of crashing
+    test('lat as a number -> BadResponseException', () {
+      final broken = user1Json.replaceFirst('"-37.3159"', '-37.3159');
+      final repo = _repo((_) async => http.Response('[$broken]', 200));
+
+      expect(repo.getAll(), throwsA(isA<BadResponseException>()));
+    });
+  });
+
   group('token', () {
     test('goes into the Authorization header by itself', () async {
       String? auth;
